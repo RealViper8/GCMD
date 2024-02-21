@@ -4,17 +4,17 @@ use std::{io::{self, Write}, path::Path};
 
 use tokio;
 
-#[tokio::main(flavor="current_thread")]
+#[tokio::main(flavor = "current_thread")]
 async fn main() {
     execute!(io::stdout(), SetForegroundColor(crossterm::style::Color::Cyan)).unwrap();
     clear().await;
     println!("\t\t\x1b[1;35m--- \x1b[0;32mGCMD \x1b[0;36mDEV \x1b[1;35m---");
 
     let mut input: String = String::new();
-    let mut cd = std::env::current_dir().unwrap().display().to_string();
+    let mut cd = std::env::current_dir().unwrap();
 
     loop {
-        print!("\x1b[0;36m{}\x1b[1;32m$\x1b[1;35m:\x1b[0;32m ", std::env::current_dir().unwrap().display());
+        print!("\x1b[0;36m{}\x1b[1;32m$\x1b[1;35m:\x1b[0;32m ", &cd.display());
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut input).unwrap();
 
@@ -26,9 +26,9 @@ async fn main() {
             match (input.trim().split_whitespace().nth(0).unwrap(), input.trim().split_whitespace().nth(1).unwrap()) {
                 ("cd", path) if Path::new(path).exists() => {
                     if input.trim().split_whitespace().nth(1).unwrap() == ".." {
-                        cd = std::env::current_dir().unwrap().parent().unwrap().display().to_string();
+                        cd = std::env::current_dir().unwrap();
                     } else {
-                        cd = std::env::current_dir().unwrap().join(input.trim().split_whitespace().nth(1).unwrap()).display().to_string();
+                        cd = std::env::current_dir().unwrap().join(input.trim().split_whitespace().nth(1).unwrap());
                     }
                     std::env::set_current_dir(&cd).unwrap();
                 }
