@@ -77,7 +77,7 @@ Here are some example commands:
 We welcome contributions! If you have ideas for new features, bug fixes, or improvements, please open an issue or submit a pull request. Make sure to follow our Contribution Guidelines.
 
 ## License
-GCMD is licensed under the MIT License. Feel free to use, modify, and distribute it as per the terms of the license.
+GCMD is licensed under the [MIT](https://github.com/RealViper8/GCMD/tree/master?tab=MIT-1-ov-file) License. Feel free to use, modify, and distribute it as per the terms of the license.
 
 ## Contact
 For questions or suggestions, feel free to reach out to the project maintainer:
