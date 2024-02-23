@@ -1,4 +1,5 @@
 use std::io;
+use std::path::Path;
 use std::process::Command;
 use sha256::digest;
 use crossterm::execute;
@@ -7,6 +8,8 @@ use mlua::Lua;
 
 use base64::Engine;
 use base64::prelude::BASE64_STANDARD;
+
+use configparser::ini::Ini;
 
 pub const BOOTSTRAPP: &str = include_str!("bootstrap.lua");
 
@@ -79,7 +82,12 @@ fn verify(_lua: &Lua, (input, expected): (String, String)) -> Result<bool, mlua:
 }
 
 pub fn init() {
+    let mut config = Ini::new();
     let lua = Lua::new();
+
+    if Path::new("config.ini").exists() {
+        config.load("config.ini").unwrap();
+    }
 
     lua.globals().set("hash", lua.create_function(hash).unwrap()).unwrap();
     lua.globals().set("verify", lua.create_function(verify).unwrap()).unwrap();
@@ -87,9 +95,12 @@ pub fn init() {
         Ok(BASE64_STANDARD.encode(input))
     }).unwrap()).unwrap();
 
-    match lua.load(&*BOOTSTRAPP).exec() {
-        Ok(_) => (),
-        Err(err) => println!("{}", err)
+    // println!("{:#?}", config.get("terminal", "savelogin"));
+    if config.get("terminal", "savelogin") != Some("true".to_string()) {
+        match lua.load(&*BOOTSTRAPP).exec() {
+            Ok(_) => (),
+            Err(err) => println!("{}", err)
+        }
     }
     
     execute!(io::stdout(), SetForegroundColor(crossterm::style::Color::Cyan)).unwrap();
