@@ -43,13 +43,13 @@ __if unix (macOS, linux):__
 3. Make the script executable:
 
 ```
-chmod +x gcmd.sh
+chmod +x gcmd
 ```
 
 4. Run GCMD:
 
 ```
-./gcmd.sh
+./gcmd
 ```
 
 ## Usage
@@ -60,17 +60,17 @@ Here are some example commands:
 
 ### Display help
 ```
-./gcmd.sh --help
+./gcmd --help
 ```
 
 ### Run a specific command
 ```
-./gcmd.sh run my_command
+./gcmd run my_command
 ```
 
 ### Customize GCMD configuration
 ```
-./gcmd.sh config set key value
+./gcmd config set key value
 ```
 
 ## Contributing
