@@ -92,6 +92,7 @@ fn main() {
                     println!("\x1b[0;32mwifi <ssid> \x1b[0m - Lists the password of a saved wifi network.");
                     println!("\x1b[0;32mprint, println    \x1b[0m- Prints something out.");
                     println!("\x1b[0;32mset <key> <value>  \x1b[0m- Sets config value. Example: set savelogin true");
+                    println!("\x1b[0;32mpwd \x1b[0m- Prints the current working directory.");
                     println!("\x1b[0;32mexit, quit    \x1b[0m- Exits the application.");
                     println!();
                 }
@@ -117,7 +118,7 @@ fn main() {
                     println!("{:#?}", networks);
                     println!();
                 }
-                "osh" | "shell" => {
+                "osh" | "shell" | "sh" => {
                     #[cfg(target_os="windows")]
                     let status = Command::new("cmd")
                         .status()
@@ -131,6 +132,10 @@ fn main() {
                     if !status.success() {
                         eprintln!("\x1b[0;31mShell exited with non-zero status.\x1b[0m");
                     }
+                    println!();
+                }
+                "pwd" => {
+                    println!("\x1b[0;32mDirectory: {}\x1b[0m", cd);
                     println!();
                 }
                 "ls" | "dir" => {
